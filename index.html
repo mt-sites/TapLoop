@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TapLoop – One tap. More calls, reviews and followers.</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b1630;--bg2:#101f42;--card:#15264d;--ink:#f3f6ff;--mute:#a3b0d0;--blue:#4b7bff;--gold:#f5b942;--mint:#47e0b0;--line:#ffffff1f;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*:before,*:after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 "Instrument Sans",system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3{font-family:"Bricolage Grotesque","Instrument Sans",system-ui,sans-serif;line-height:1.05;margin:0;letter-spacing:-.02em}
+h1{font-size:clamp(2.6rem,6.4vw,5rem);font-weight:800}
+h2{font-size:clamp(2rem,4.2vw,3.2rem);font-weight:700}
+h3{font-size:1.3rem;font-weight:700}
+p{margin:0}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+section{padding:96px 0}
+.lead{color:var(--mute);max-width:56ch;margin-top:16px}
+nav{position:fixed;top:0;left:0;right:0;z-index:20;padding-top:env(safe-area-inset-top,0px);backdrop-filter:blur(14px);background:#0b1630b8;border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font:800 1.4rem "Bricolage Grotesque",sans-serif;display:flex;gap:10px;align-items:center}
+.logo i{width:26px;height:26px;border-radius:50%;border:3px solid var(--blue);position:relative;display:inline-block}
+.logo i:after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--gold)}
+nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0;color:var(--mute);font-size:.95rem}
+nav ul a:hover{color:var(--ink)}
+.btn{display:inline-block;border:0;cursor:pointer;font:600 1rem "Instrument Sans",sans-serif;padding:14px 26px;border-radius:999px;background:var(--gold);color:#1b1300;transition:transform .25s,box-shadow .25s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px #f5b94266}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.ghost:hover{box-shadow:none;border-color:var(--ink)}
+.hero{padding-top:150px;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;width:700px;height:700px;right:-200px;top:-150px;background:radial-gradient(circle,#4b7bff55,transparent 65%);filter:blur(10px)}
+.hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;position:relative}
+.hero p.lead{font-size:1.15rem}
+.cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:32px}
+.proof{display:flex;gap:10px;align-items:center;margin-top:30px;color:var(--mute);font-size:.95rem}
+.stars{color:var(--gold);letter-spacing:2px}
+.stage{perspective:1100px;height:480px;display:grid;place-items:center;position:relative}
+.scene{position:relative;width:340px;height:215px;transform-style:preserve-3d;transition:transform .25s ease-out;animation:float 6s ease-in-out infinite}
+@keyframes float{50%{translate:0 -14px}}
+.nfc{position:absolute;inset:0;border-radius:22px;background:linear-gradient(135deg,#1d3a8a,#4b7bff 55%,#8fb0ff);box-shadow:0 40px 80px #00000070,inset 0 0 0 1px #ffffff40;padding:24px;overflow:hidden;transform:translateZ(30px)}
+.nfc:after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,#ffffff55 50%,transparent 65%);transform:translateX(-120%);animation:shine 5s 1s infinite}
+@keyframes shine{to{transform:translateX(120%)}}
+.nfc b{font:800 1.3rem "Bricolage Grotesque",sans-serif}
+.nfc small{display:block;opacity:.8;margin-top:2px}
+.nfc .waves{position:absolute;right:22px;top:22px;width:44px;height:44px}
+.nfc .qr{position:absolute;left:24px;bottom:22px;font-size:.8rem;background:#ffffff26;padding:6px 12px;border-radius:99px}
+.layer{position:absolute;border-radius:16px;background:var(--card);border:1px solid var(--line);box-shadow:0 20px 50px #0007;padding:12px 16px;font-size:.88rem;white-space:nowrap}
+.l1{top:-50px;right:-70px;transform:translateZ(110px);animation:float 5s -1s ease-in-out infinite}
+.l2{bottom:-40px;left:-80px;transform:translateZ(90px);animation:float 7s -2s ease-in-out infinite}
+.l3{bottom:50px;right:-90px;transform:translateZ(60px);animation:float 6s -3s ease-in-out infinite}
+.layer strong{display:block;font-size:1.05rem}
+.ring{position:absolute;left:50%;top:50%;width:200px;height:200px;margin:-100px;border-radius:50%;border:2px solid var(--blue);opacity:0;animation:ping 3.6s infinite}
+.ring:nth-child(2){animation-delay:1.2s}.ring:nth-child(3){animation-delay:2.4s}
+@keyframes ping{0%{transform:scale(.4);opacity:.7}100%{transform:scale(2.6);opacity:0}}
+/* functions */
+.tabs{display:flex;gap:10px;flex-wrap:wrap;margin:36px 0 30px}
+.tab{cursor:pointer;background:transparent;color:var(--mute);border:1px solid var(--line);padding:12px 20px;border-radius:999px;font:600 .98rem "Instrument Sans",sans-serif;transition:.25s}
+.tab[aria-selected=true]{background:var(--blue);color:#fff;border-color:var(--blue)}
+.panel{display:none;grid-template-columns:1fr 340px;gap:50px;align-items:center}
+.panel.on{display:grid;animation:in .5s ease}
+@keyframes in{from{opacity:0;transform:translateY(14px)}}
+.panel ul{padding:0;margin:20px 0 0;list-style:none;display:grid;gap:12px}
+.panel li{padding-left:30px;position:relative}
+.panel li:before{content:"✓";position:absolute;left:0;color:var(--mint);font-weight:700}
+.phone{width:300px;margin:auto;aspect-ratio:9/17;border-radius:38px;background:#060d20;border:8px solid #22335f;box-shadow:0 30px 70px #0008;padding:22px 16px;display:flex;flex-direction:column;gap:10px;transform:perspective(900px) rotateY(-12deg) rotateX(4deg);transition:transform .5s}
+.phone:hover{transform:perspective(900px) rotateY(0) rotateX(0)}
+.phone .top{height:6px;width:70px;background:#22335f;border-radius:9px;margin:0 auto 8px}
+.row{background:var(--card);border-radius:14px;padding:12px 14px;font-size:.9rem;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.row.pri{background:var(--blue)}
+.row.gold{background:#f5b94226;color:var(--gold)}
+.avatar{width:62px;height:62px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#ff8a5b);margin:4px auto 0}
+/* growth */
+.grow{background:var(--bg2)}
+.grow .wrap{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.radar{position:relative;aspect-ratio:1;max-width:440px;margin:auto;width:100%}
+.radar span{position:absolute;inset:0;margin:auto;border-radius:50%;border:1px solid var(--line)}
+.radar span:nth-child(1){width:30%;height:30%;background:var(--blue);border:0}
+.radar span:nth-child(2){width:62%;height:62%;animation:pulse 4s infinite}
+.radar span:nth-child(3){width:96%;height:96%;animation:pulse 4s 1s infinite}
+@keyframes pulse{50%{background:#4b7bff22;border-color:var(--blue)}}
+.radar em{position:absolute;font-style:normal;font-size:.8rem;background:var(--card);padding:5px 12px;border-radius:99px;border:1px solid var(--line)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px}
+.stats b{display:block;font:800 2.3rem "Bricolage Grotesque",sans-serif;color:var(--gold)}
+.stats span{color:var(--mute);font-size:.9rem;line-height:1.3;display:block}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:44px;counter-reset:s}
+.step{border-top:2px solid var(--blue);padding-top:18px;counter-increment:s}
+.step h3:before{content:counter(s)". ";color:var(--blue)}
+.step p{color:var(--mute);margin-top:8px}
+/* pricing */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:48px;perspective:1200px;align-items:stretch}
+.plan{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:32px 28px;display:flex;flex-direction:column;transition:transform .3s}
+.plan:hover{transform:translateY(-8px) rotateX(3deg)}
+.plan.pop{background:linear-gradient(160deg,#2a4fd0,#15264d 70%);border-color:var(--blue)}
+.tag{align-self:flex-start;background:var(--gold);color:#1b1300;font-size:.8rem;font-weight:600;padding:3px 12px;border-radius:99px;margin-bottom:12px}
+.price{font:800 3rem "Bricolage Grotesque",sans-serif;margin:14px 0 2px}
+.price small{font:400 1rem "Instrument Sans",sans-serif;color:var(--mute)}
+.plan ul{list-style:none;padding:0;margin:22px 0 28px;display:grid;gap:10px;color:var(--mute);flex:1}
+.plan li:before{content:"✓ ";color:var(--mint)}
+.plan .btn{text-align:center}
+/* 3D extras */
+.cubes{background:var(--bg2)}
+.cubes .wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.cubewrap{perspective:900px;height:360px;display:grid;place-items:center;cursor:grab;touch-action:pan-y;user-select:none}
+.cube{width:190px;height:190px;position:relative;transform-style:preserve-3d}
+.f{position:absolute;inset:0;display:grid;place-content:center;text-align:center;font-size:2.4rem;border-radius:18px;border:1px solid #ffffff55;background:linear-gradient(135deg,#2a4fd0d9,#15264dd9);box-shadow:inset 0 0 40px #4b7bff66}
+.f b{font:700 1.1rem "Bricolage Grotesque",sans-serif}
+.f1{transform:translateZ(95px)}.f2{transform:rotateY(90deg) translateZ(95px)}.f3{transform:rotateY(180deg) translateZ(95px)}.f4{transform:rotateY(-90deg) translateZ(95px)}.f5{transform:rotateX(90deg) translateZ(95px)}.f6{transform:rotateX(-90deg) translateZ(95px)}
+.radar{perspective:800px}
+.orbit{position:absolute;inset:4%;border:1px dashed var(--blue);border-radius:50%;animation:orb 14s linear infinite;pointer-events:none}
+.orbit.o2{inset:16%;animation-duration:9s;animation-direction:reverse;border-color:var(--gold)}
+.orbit i{position:absolute;width:16px;height:16px;border-radius:50%;background:var(--gold);top:-8px;left:calc(50% - 8px);box-shadow:0 0 18px var(--gold)}
+.orbit.o2 i{background:var(--mint);box-shadow:0 0 18px var(--mint)}
+@keyframes orb{from{transform:rotateX(68deg) rotateZ(0)}to{transform:rotateX(68deg) rotateZ(360deg)}}
+.plan,.phone{will-change:transform}
+/* checkout + mobile */
+[hidden]{display:none!important}
+.navr{display:flex;gap:10px;align-items:center}
+.menu{display:none;background:transparent;border:1px solid var(--line);color:var(--ink);width:44px;height:44px;border-radius:12px;font-size:1.3rem;cursor:pointer}
+.mute{color:var(--mute)}.plan.pop .mute{color:#cfd8f5}.plan.pop ul{color:#dfe6ff}
+#checkout{padding:110px 0 80px;animation:in .5s ease}
+.back{color:var(--mute);display:inline-block;margin-bottom:14px}
+.back:hover{color:var(--ink)}
+.co{display:grid;grid-template-columns:1fr 340px;gap:28px;align-items:start;margin-top:30px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:26px;margin-bottom:20px}
+.box h3{margin-bottom:16px}
+.pick{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
+.opt{cursor:pointer;background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:14px;text-align:left;font:inherit;display:grid;gap:2px;transition:.2s}
+.opt.on{border-color:var(--gold);background:#f5b9421a}.opt span{color:var(--mute)}
+#paytabs{margin:0 0 20px}
+.amt{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#ffffff0d;border-radius:14px;padding:14px 16px;margin-bottom:18px}
+.amt b{font:800 1.6rem "Bricolage Grotesque",sans-serif;color:var(--gold)}
+.qrimg{display:block;width:min(260px,100%);margin:0 auto 14px;border-radius:16px;background:#fff;padding:12px}
+.qrph{width:min(260px,100%);aspect-ratio:1;margin:0 auto 14px;border:2px dashed var(--line);border-radius:16px;display:grid;place-content:center;text-align:center;color:var(--mute);padding:20px;font-size:.9rem}
+.kv{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.kv span{color:var(--mute);font-size:.9rem}.kv b{display:block;font-size:1.1rem;word-break:break-all}
+.copy{cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:99px;padding:10px 18px;font:600 .85rem "Instrument Sans",sans-serif;min-height:44px}
+.copy:hover{border-color:var(--ink)}
+.hint{margin-top:14px;font-size:.9rem;color:var(--mute)}
+.fld{display:grid;gap:6px;margin-bottom:14px;color:var(--mute);font-size:.9rem}
+.fld input{background:#060d20;border:1px solid var(--line);border-radius:12px;padding:13px 14px;color:var(--ink);font:inherit;font-size:16px;width:100%}
+.send{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.err{color:#ff8a8a;min-height:1.4em;font-size:.9rem;margin-top:8px}
+.sum{position:sticky;top:84px;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:26px}
+.sum ul{list-style:none;padding:0;margin:16px 0;display:grid;gap:8px;color:var(--mute);font-size:.95rem}
+.sum li:before{content:"✓ ";color:var(--mint)}
+.tot{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:16px;font-weight:600;font-size:1.15rem}
+#toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom,0px));left:50%;transform:translate(-50%,30px);opacity:0;background:var(--ink);color:#0b1630;padding:10px 20px;border-radius:99px;font-weight:600;transition:.3s;z-index:40;pointer-events:none}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:900px){
+.menu{display:block}
+nav ul{display:none;position:absolute;top:calc(64px + env(safe-area-inset-top,0px));left:0;right:0;flex-direction:column;background:var(--bg);padding:14px 22px 22px;gap:18px;border-bottom:1px solid var(--line);font-size:1.05rem}
+nav.open ul{display:flex}
+.co{grid-template-columns:1fr}.sum{position:static;order:-1}
+.scene{scale:.8}
+}
+@media(max-width:600px){
+body{font-size:16px}.wrap{padding:0 18px}section{padding:60px 0}
+.hero{padding-top:104px}.stage{height:340px}.scene{scale:.68}
+.cta .btn{flex:1;text-align:center}
+.stats{gap:10px}.stats b{font-size:1.7rem}.stats span{font-size:.8rem}
+.cubewrap{height:300px}.cube{scale:.8}
+.phone{width:min(280px,100%)}
+.tab{padding:10px 16px;font-size:.9rem}
+.plan{padding:26px 22px}.box{padding:20px}
+nav .btn{padding:11px 16px;font-size:.9rem}
+.amt b{font-size:1.4rem}
+}
+/* faq */
+.faq{max-width:760px;margin:40px auto 0}
+.q{border-bottom:1px solid var(--line)}
+.q button{all:unset;box-sizing:border-box;cursor:pointer;width:100%;padding:22px 0;display:flex;justify-content:space-between;gap:16px;font:600 1.1rem "Instrument Sans",sans-serif}
+.q button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.q button:after{content:"+";font-size:1.5rem;line-height:1;transition:transform .3s;color:var(--gold)}
+.q.open button:after{transform:rotate(45deg)}
+.a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+.q.open .a{grid-template-rows:1fr}
+.a div{overflow:hidden;color:var(--mute)}
+.a p{padding-bottom:22px}
+.end{text-align:center;background:radial-gradient(ellipse at 50% 100%,#4b7bff55,transparent 70%)}
+.end .lead{margin:16px auto 30px}
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--mute);font-size:.9rem;text-align:center}
+.rv{opacity:0;transform:perspective(1000px) rotateX(16deg) translateY(44px);transform-origin:50% 100%;transition:opacity .9s,transform .9s cubic-bezier(.2,.7,.2,1)}
+.rv.show{opacity:1;transform:none}
+@media(max-width:900px){
+.hero .wrap,.grow .wrap,.cubes .wrap,.panel.on{grid-template-columns:1fr}
+.stage{height:380px}
+.steps,.plans{grid-template-columns:1fr}
+.l1{right:-20px}.l2{left:-20px}.l3{right:-20px}
+section{padding:72px 0}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<nav><div class="wrap"><a class="logo" href="#top"><i></i><span data-brand>TapLoop</span></a>
+<ul><li><a href="#how">What it does</a></li><li><a href="#grow">Growth</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#faq">FAQ</a></li></ul>
+<div class="navr"><a class="btn" href="#checkout">Get your card</a><button class="menu" aria-label="Open menu" aria-expanded="false">☰</button></div></div></nav>
+<div id="home">
+
+<header class="hero" id="top"><div class="wrap">
+<div>
+<h1>Tap once. Get the call, the review and the follow.</h1>
+<p class="lead">TapLoop is an NFC business card and counter stand. Customers tap their phone and your contact, Google review page and social pages open instantly. No app. No typing.</p>
+<div class="cta"><a class="btn" href="#pricing">See prices</a><a class="btn ghost" href="#how">Watch it work</a></div>
+<div class="proof"><span class="stars">★★★★★</span> Used by cafés, salons, clinics and shops</div>
+</div>
+<div class="stage" id="stage">
+<div class="ring"></div><div class="ring"></div><div class="ring"></div>
+<div class="scene" id="scene">
+<div class="nfc"><b data-card>Your Business</b><small>Tap to call, review, follow</small>
+<svg class="waves" viewBox="0 0 44 44" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M12 12a14 14 0 010 20"/><path d="M20 7a22 22 0 010 30"/><path d="M28 2a30 30 0 010 40"/></svg>
+<span class="qr">NFC + QR backup</span></div>
+<div class="layer l1"><strong>New review</strong><span class="stars">★★★★★</span> “Fast and friendly!”</div>
+<div class="layer l2"><strong>+38 followers</strong>this week</div>
+<div class="layer l3"><strong>Saved contact</strong>Tap from 2 cm away</div>
+</div></div>
+</div></header>
+
+<section id="how"><div class="wrap rv">
+<h2>One card. Three ways to grow.</h2>
+<p class="lead">Choose what each tap does. Change the link any time without reprinting the card.</p>
+<div class="tabs" role="tablist">
+<button class="tab" role="tab" aria-selected="true" data-p="0">Calling card</button>
+<button class="tab" role="tab" aria-selected="false" data-p="1">Google reviews</button>
+<button class="tab" role="tab" aria-selected="false" data-p="2">Social pages</button></div>
+<div class="panel on"><div><h3>Hand over your details in one tap</h3><p class="lead">Customers save your number, address, hours and website straight to their phone. No more lost paper cards.</p>
+<ul><li>Save-to-contacts button with your logo</li><li>Tap-to-call, WhatsApp and directions</li><li>Update your details without reprinting</li></ul></div>
+<div class="phone"><div class="top"></div><div class="avatar"></div><div class="row" style="justify-content:center;font-weight:600">Your Business</div><div class="row pri">Call now <span>☎</span></div><div class="row">Get directions <span>⌖</span></div><div class="row">Message us <span>✉</span></div><div class="row gold">Save contact <span>＋</span></div></div></div>
+<div class="panel"><div><h3>Ask for the review while they are still smiling</h3><p class="lead">The tap opens your Google review box directly. Happy customers finish in seconds, so your rating and local ranking climb.</p>
+<ul><li>Opens straight to your Google review form</li><li>Place one on every counter, table or invoice folder</li><li>More fresh reviews help you show up in local searches</li></ul></div>
+<div class="phone"><div class="top"></div><div class="row" style="justify-content:center;font-weight:600">How was your visit?</div><div class="row" style="justify-content:center;font-size:1.8rem"><span class="stars">★★★★★</span></div><div class="row">Great service, will come back!</div><div class="row pri" style="justify-content:center">Post review</div><div class="row gold">4.9 average · 212 reviews</div></div></div>
+<div class="panel"><div><h3>Turn walk-ins into followers</h3><p class="lead">Put your Facebook, Instagram and TikTok pages one tap away. Every customer becomes part of your audience.</p>
+<ul><li>All your social pages on one clean screen</li><li>Follow buttons that open the app directly</li><li>Tap counts show which spot brings the most followers</li></ul></div>
+<div class="phone"><div class="top"></div><div class="avatar"></div><div class="row" style="justify-content:center;font-weight:600">Follow us</div><div class="row pri">Facebook <span>Follow</span></div><div class="row">Instagram <span>Follow</span></div><div class="row">TikTok <span>Follow</span></div><div class="row gold">Next post: Weekend promo</div></div></div>
+</div></section>
+
+<section class="cubes"><div class="wrap rv"><div><h2>Everything your card can do, in one spin.</h2><p class="lead">Drag the cube to turn it. Each side is something your customers can do with a single tap.</p></div>
+<div class="cubewrap" id="cw" aria-label="Rotating cube showing card actions"><div class="cube" id="cube"><div class="f f1">☎<b>Call</b></div><div class="f f2">★<b>Review</b></div><div class="f f3">♥<b>Follow</b></div><div class="f f4">⌖<b>Visit</b></div><div class="f f5">＋<b>Save</b></div><div class="f f6">↗<b>Share</b></div></div></div></div></section>
+
+<section class="grow" id="grow"><div class="wrap">
+<div class="rv"><h2>Be the business everyone nearby finds first.</h2>
+<p class="lead">Every tap puts you in front of someone new: the customer, then their friends who see the review or follow the page. Your reach spreads street by street.</p>
+<div class="stats"><div><b data-n="3.4" data-d="1">0</b><span>times more reviews in 90 days*</span></div><div><b data-n="62" data-s="%">0</b><span>of tappers save your contact*</span></div><div><b data-n="2" data-s="s">0</b><span>seconds from tap to page</span></div></div>
+<p style="color:var(--mute);font-size:.8rem;margin-top:16px">*Sample results. Yours depend on how often you ask.</p></div>
+<div class="radar rv" aria-label="Reach spreading from your shop to the neighborhood"><span></span><span></span><span></span><div class="orbit"><i></i></div><div class="orbit o2"><i></i></div>
+<em style="left:50%;top:50%;transform:translate(-50%,-50%);background:var(--blue);border:0;font-weight:600">You</em>
+<em style="left:60%;top:22%">Neighbors</em><em style="left:6%;top:56%">Nearby offices</em><em style="right:2%;top:70%">Walk-in crowd</em><em style="left:30%;top:8%">Local searches</em></div>
+</div>
+<div class="wrap rv" style="display:block;margin-top:70px"><h2>Set up in three taps</h2>
+<div class="steps"><div class="step"><h3>Send us your links</h3><p>Your Google review link, social pages and contact details.</p></div><div class="step"><h3>We program your card</h3><p>Printed with your logo and ready in 3 days.</p></div><div class="step"><h3>Place it and tap</h3><p>Keep it on the counter or hand it out. Customers do the rest.</p></div></div></div>
+</section>
+
+<section id="pricing"><div class="wrap rv" style="text-align:center">
+<h2>Simple prices. Pays for itself with a few new customers.</h2>
+<p class="lead" style="margin-inline:auto">One-time price. No monthly fees. Free updates to your links.</p>
+<div class="plans" id="plans" style="text-align:left"></div></div></section>
+
+<section id="faq" style="padding-top:0"><div class="wrap rv"><h2 style="text-align:center">Questions owners ask</h2>
+<div class="faq">
+<div class="q open"><button aria-expanded="true">Do customers need an app?</button><div class="a"><div><p>No. Any modern phone opens the page when tapped. Each card also has a QR code for older phones.</p></div></div></div>
+<div class="q"><button aria-expanded="false">Can I change the links later?</button><div class="a"><div><p>Yes. Update your review link, social pages or phone number any time. The card keeps working.</p></div></div></div>
+<div class="q"><button aria-expanded="false">Does it work with iPhone and Android?</button><div class="a"><div><p>Yes, both. Recent iPhones and nearly all Android phones read NFC without setup.</p></div></div></div>
+<div class="q"><button aria-expanded="false">How does it help me get more Google reviews?</button><div class="a"><div><p>The tap opens your review box directly, so customers skip searching for your business. Fewer steps means more people finish.</p></div></div></div>
+<div class="q"><button aria-expanded="false">Is there a monthly fee?</button><div class="a"><div><p>No. You pay once for the card or stand and keep it.</p></div></div></div>
+</div></div></section>
+
+<section class="end"><div class="wrap rv"><h2>Your next customer is one tap away.</h2><p class="lead">Order your card today and start collecting reviews and followers this week.</p><a class="btn" href="#checkout">Get your card</a></div></section>
+</div>
+<main id="checkout" hidden><div class="wrap">
+<a class="back" href="#pricing">← Back to plans</a>
+<h2>Complete your order</h2>
+<div class="co"><div>
+<div class="box"><h3>1. Choose your plan</h3><div class="pick" id="pick"></div></div>
+<div class="box"><h3>2. Pay</h3><div class="tabs" id="paytabs" role="tablist"></div><div id="paybody"></div></div>
+<div class="box"><h3>3. Send your receipt</h3>
+<p class="mute" style="margin-bottom:16px">After paying, tell us who you are and attach your payment screenshot. We start on your card right away.</p>
+<label class="fld">Your name<input id="fn" autocomplete="name"></label>
+<label class="fld">Business name<input id="fb" autocomplete="organization"></label>
+<label class="fld">Mobile number or email<input id="fc" autocomplete="tel"></label>
+<div class="send" id="send"></div><div class="err" id="err" aria-live="polite"></div></div>
+</div>
+<aside class="sum"><h3 id="sumPlan"></h3><p class="mute" id="sumBlurb"></p><ul id="sumList"></ul>
+<div class="tot"><span>Total</span><span id="sumTotal"></span></div>
+<p class="hint">One-time payment. Order reference: <b id="ref"></b></p></aside>
+</div></div></main>
+<div id="toast" role="status"></div>
+<footer>© 2026 <span data-brand>TapLoop</span>. All rights reserved.</footer>
+
+<script>
+// ================= EDIT YOUR DETAILS HERE =================
+const CONFIG={
+ brand:"TapLoop",
+ cardName:"Your Business",
+ currency:"₱",
+ colors:{blue:"#4b7bff",gold:"#f5b942",bg:"#0b1630",bg2:"#101f42",card:"#15264d"},
+ plans:[
+  {id:"starter",name:"Starter",price:999,blurb:"For solo owners.",features:["1 NFC calling card","Contact page and tap-to-call","Google review link"]},
+  {id:"growth",name:"Growth",price:2999,popular:true,blurb:"For shops with a counter.",features:["1 counter stand and 2 cards","Calling card, reviews and socials","Tap counter dashboard","Custom logo print"]},
+  {id:"business",name:"Business",price:7499,blurb:"For teams and branches.",features:["5 stands and 10 staff cards","Separate links per branch","Priority setup in 24 hours"]}
+ ],
+ payments:{
+  qr:{label:"Scan QR",image:"",note:"Scan with GCash, Maya or any banking app. To show your own QR, upload it to your repo (for example qr.png) and set image to \"qr.png\"."},
+  gcash:{label:"GCash",name:"Juan Dela Cruz",number:"0917 000 0000"},
+  bank:{label:"Bank",bank:"BDO",name:"Your Business Name",number:"0000 0000 0000"},
+  card:{label:"Card",link:"https://your-payment-link.example.com",note:"You will open our secure card checkout. Card details are never typed on this page."}
+ },
+ contact:{whatsapp:"639170000000",messenger:"yourpage",email:"hello@yourbusiness.com"}
+};
+// ==========================================================
+const $=id=>document.getElementById(id),money=n=>CONFIG.currency+n.toLocaleString('en-US');
+Object.entries(CONFIG.colors).forEach(([k,v])=>document.documentElement.style.setProperty('--'+k,v));
+document.querySelectorAll('[data-brand]').forEach(e=>e.textContent=CONFIG.brand);
+document.querySelectorAll('[data-card]').forEach(e=>e.textContent=CONFIG.cardName);
+document.title=CONFIG.brand+" – NFC business cards";
+$('plans').innerHTML=CONFIG.plans.map(p=>`<div class="plan${p.popular?' pop':''}">${p.popular?'<span class="tag">Most popular</span>':''}<h3>${p.name}</h3><div class="price">${money(p.price)}<small> one-time</small></div><p class="mute">${p.blurb}</p><ul>${p.features.map(f=>`<li>${f}</li>`).join('')}</ul><a class="btn${p.popular?'':' ghost'}" href="#checkout?plan=${p.id}">Choose ${p.name}</a></div>`).join('');
+const nav=document.querySelector('nav'),menu=document.querySelector('.menu');
+menu.onclick=()=>menu.setAttribute('aria-expanded',nav.classList.toggle('open'));
+nav.querySelector('ul').onclick=()=>{nav.classList.remove('open');menu.setAttribute('aria-expanded',false)};
+// ---- checkout ----
+const P=CONFIG.payments,C=CONFIG.contact,ref='ORD-'+Math.random().toString(36).slice(2,7).toUpperCase();
+let sel=CONFIG.plans.find(p=>p.popular)||CONFIG.plans[0],method=Object.keys(P)[0];
+$('ref').textContent=ref;
+const toast=t=>{const e=$('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2200)};
+const fb=(t,ok)=>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){}a.remove()};
+const copy=t=>{const ok=()=>toast('Copied');if(navigator.clipboard)navigator.clipboard.writeText(t).then(ok,()=>fb(t,ok));else fb(t,ok)};
+const kv=(l,v,c)=>`<div class="kv"><div><span>${l}</span><b>${v}</b></div><button class="copy" data-copy="${c||v}">Copy</button></div>`;
+function renderPay(){
+ $('paytabs').innerHTML=Object.keys(P).map(k=>`<button class="tab" role="tab" aria-selected="${k===method}" data-k="${k}">${P[k].label}</button>`).join('');
+ let b=`<div class="amt"><span>Amount to pay</span><b>${money(sel.price)}</b></div>`,m=P[method];
+ if(method==='qr')b+=(m.image?`<img class="qrimg" src="${m.image}" alt="Payment QR code">`:`<div class="qrph">Your payment QR code appears here.<br>Set payments.qr.image in the settings.</div>`)+`<p class="hint">${m.note}</p>`;
+ else if(method==='gcash')b+=kv('GCash number',m.number,m.number.replace(/\s/g,''))+kv('Account name',m.name);
+ else if(method==='bank')b+=kv('Bank',m.bank)+kv('Account name',m.name)+kv('Account number',m.number,m.number.replace(/\s/g,''));
+ else if(method==='card')b+=`<p class="hint" style="margin:0 0 16px">${m.note}</p><a class="btn" href="${m.link}" target="_blank" rel="noopener">Pay ${money(sel.price)} by card</a>`;
+ if(method!=='card')b+=`<p class="hint">Add ${ref} to the payment notes if you can.</p>`;
+ $('paybody').innerHTML=b}
+function update(){
+ $('pick').innerHTML=CONFIG.plans.map(p=>`<button class="opt${p.id===sel.id?' on':''}" data-id="${p.id}" aria-pressed="${p.id===sel.id}"><b>${p.name}</b><span>${money(p.price)}</span></button>`).join('');
+ $('sumPlan').textContent=sel.name+' plan';$('sumBlurb').textContent=sel.blurb;$('sumTotal').textContent=money(sel.price);
+ $('sumList').innerHTML=sel.features.map(f=>`<li>${f}</li>`).join('');renderPay()}
+$('pick').onclick=e=>{const b=e.target.closest('.opt');if(b){sel=CONFIG.plans.find(p=>p.id===b.dataset.id);update()}};
+$('paytabs').onclick=e=>{const b=e.target.closest('.tab');if(b){method=b.dataset.k;renderPay()}};
+$('paybody').onclick=e=>{const b=e.target.closest('.copy');if(b)copy(b.dataset.copy)};
+const chans=[];
+if(C.whatsapp)chans.push(['wa','Send via WhatsApp']);
+if(C.messenger)chans.push(['ms','Send via Messenger']);
+if(C.email)chans.push(['em','Send via email']);
+$('send').innerHTML=chans.map((c,i)=>`<button class="btn${i?' ghost':''}" data-c="${c[0]}">${c[1]}</button>`).join('');
+$('send').onclick=e=>{const b=e.target.closest('button');if(!b)return;
+ const n=$('fn').value.trim(),bz=$('fb').value.trim(),ct=$('fc').value.trim();
+ if(!n||!ct){$('err').textContent='Add your name and mobile number or email first.';return}
+ $('err').textContent='';
+ const msg=`New order ${ref}\nPlan: ${sel.name} (${money(sel.price)})\nPaid via: ${P[method].label}\nName: ${n}\nBusiness: ${bz}\nContact: ${ct}\nI will attach my payment screenshot.`,q=encodeURIComponent(msg);
+ if(b.dataset.c==='wa')window.open('https://wa.me/'+C.whatsapp+'?text='+q,'_blank');
+ else if(b.dataset.c==='ms'){copy(msg);toast('Message copied. Paste it in Messenger.');window.open('https://m.me/'+C.messenger,'_blank')}
+ else location.href='mailto:'+C.email+'?subject='+encodeURIComponent('Order '+ref)+'&body='+q};
+const home=$('home'),checkout=$('checkout');
+function route(){const h=location.hash,co=h.startsWith('#checkout');home.hidden=co;checkout.hidden=!co;
+ if(co){const id=new URLSearchParams(h.split('?')[1]||'').get('plan'),p=CONFIG.plans.find(x=>x.id===id);if(p)sel=p;update();scrollTo({top:0,behavior:'instant'})}
+ else{let t=null;try{t=h.length>1&&document.querySelector(h)}catch(e){}t?t.scrollIntoView():scrollTo({top:0,behavior:'instant'})}}
+addEventListener('hashchange',route);route();
+const scene=document.getElementById('scene'),stage=document.getElementById('stage');
+stage.addEventListener('pointermove',e=>{const r=stage.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;scene.style.transform=`rotateY(${x*30}deg) rotateX(${-y*24}deg)`});
+stage.addEventListener('pointerleave',()=>scene.style.transform='');
+const tabs=[...document.querySelectorAll('.tab')],panels=[...document.querySelectorAll('.panel')];
+tabs.forEach((t,i)=>t.onclick=()=>{tabs.forEach((x,j)=>{x.setAttribute('aria-selected',i==j);panels[j].classList.toggle('on',i==j)})});
+document.querySelectorAll('.q button').forEach(b=>b.onclick=()=>{const q=b.parentElement,o=q.classList.toggle('open');b.setAttribute('aria-expanded',o)});
+const count=el=>{const n=+el.dataset.n,d=+(el.dataset.d||0),s=el.dataset.s||(d?'x':'x');let t=0;const f=()=>{t+=.03;const v=n*(1-Math.pow(1-Math.min(t,1),3));el.textContent=v.toFixed(d)+(el.dataset.s||'x');if(t<1)requestAnimationFrame(f)};f()};
+const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+const cube=document.getElementById('cube'),cw=document.getElementById('cw');let ry=25,rx=-20,drag=false,lx=0,ly=0;
+cw.addEventListener('pointerdown',e=>{drag=true;lx=e.clientX;ly=e.clientY;cw.setPointerCapture(e.pointerId)});
+cw.addEventListener('pointermove',e=>{if(!drag)return;ry+=(e.clientX-lx)*.6;rx-=(e.clientY-ly)*.6;lx=e.clientX;ly=e.clientY});
+['pointerup','pointercancel'].forEach(n=>cw.addEventListener(n,()=>drag=false));
+(function loop(){if(!drag&&!rm)ry+=.35;cube.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg)`;requestAnimationFrame(loop)})();
+document.querySelectorAll('.plan,.phone').forEach(el=>{
+el.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'||rm)return;const r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;el.style.transform=`perspective(900px) rotateY(${x*16}deg) rotateX(${-y*16}deg) translateY(-6px)`});
+el.addEventListener('pointerleave',()=>el.style.transform='')});
+addEventListener('scroll',()=>{if(!rm)stage.style.transform=`translateY(${Math.min(scrollY,600)*.14}px) rotateZ(${scrollY*-.012}deg)`},{passive:true});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');e.target.querySelectorAll('[data-n]').forEach(count);io.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
