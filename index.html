@@ -312,8 +312,8 @@ const CONFIG={
  ],
  payments:{
   qr:{label:"Scan QR",note:"Scan with GCash, Maya or any banking app. On a phone, press and hold a QR to save it, then upload it in your app."},
-  gcash:{label:"GCash",name:"Ma*t Gl**n L.",number:"0910 380 6887",image:QR.gcash},
-  bank:{label:"GoTyme Bank",bank:"GoTyme Bank",name:"Matt Glenn Laynesa",number:"0116 9036 9373",image:QR.gotyme}
+  gcash:{label:"GCash",name:"Ma*t Gl**n L.",number:"0910 380 6887",image:"qr-gcash.png"},
+  bank:{label:"GoTyme Bank",bank:"GoTyme Bank",name:"Matt Glenn Laynesa",number:"0116 9036 9373",image:"qr-gotyme.png"}
  },
  // Orders are emailed to orderEmail and the buyer gets a copy. Put YOUR email here:
  orderEmail:"mattglennl83@gmail.com"
@@ -339,7 +339,7 @@ const kv=(l,v,c)=>`<div class="kv"><div><span>${l}</span><b>${v}</b></div><butto
 function renderPay(){
  $('paytabs').innerHTML=Object.keys(P).map(k=>`<button class="tab" role="tab" aria-selected="${k===method}" data-k="${k}">${P[k].label}</button>`).join('');
  let b=`<div class="amt"><span>Amount to pay</span><b>${money(sel.price)}</b></div>`,m=P[method];
- if(method==='qr')b+=`<div class="qrs">${['gcash','bank'].map(k=>`<figure><img class="qrimg" src="${P[k].image}" alt="${P[k].label} QR code"><figcaption>${P[k].label}<br><a class="copy" href="${P[k].image}" download="${k}-qr.png">Save QR</a></figcaption></figure>`).join('')}</div><p class="hint">${m.note}</p>`;
+ if(method==='qr')b+=`<div class="qrs">${['gcash','bank'].map(k=>`<figure><img class="qrimg" src="${P[k].image}" data-q="${k=='bank'?'gotyme':'gcash'}" onerror="this.onerror=null;this.src=QR[this.dataset.q]" alt="${P[k].label} QR code"><figcaption>${P[k].label}<br><a class="copy" href="${QR[k=='bank'?'gotyme':'gcash']}" download="${k}-qr.png">Save QR</a></figcaption></figure>`).join('')}</div><p class="hint">${m.note}</p>`;
  else if(method==='gcash')b+=kv('GCash number',m.number,m.number.replace(/\s/g,''))+kv('Account name',m.name);
  else if(method==='bank')b+=kv('Bank',m.bank)+kv('Account name',m.name)+kv('Account number',m.number,m.number.replace(/\s/g,''));
  b+=`<p class="hint">Add ${ref} to the payment notes if you can.</p>`;
